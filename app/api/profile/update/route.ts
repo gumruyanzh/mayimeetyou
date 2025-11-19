@@ -21,6 +21,7 @@ export async function PUT(request: Request) {
       socialWebsite,
       contactEmail,
       calendarUrl,
+      whatsappNumber,
     } = body
 
     // Update user name if provided
@@ -46,6 +47,7 @@ export async function PUT(request: Request) {
         socialWebsite: socialWebsite || null,
         contactEmail: contactEmail || null,
         calendarUrl: calendarUrl || null,
+        whatsappNumber: whatsappNumber || null,
       },
     })
 
