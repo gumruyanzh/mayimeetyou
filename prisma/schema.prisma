@@ -38,6 +38,7 @@ model Profile {
   socialWebsite    String?
   contactEmail     String?
   calendarUrl      String?
+  whatsappNumber   String?
 
   // Analytics
   analyticsVisits  Int      @default(0)

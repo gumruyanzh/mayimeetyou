@@ -17,6 +17,7 @@ interface Profile {
   socialWebsite: string | null
   contactEmail: string | null
   calendarUrl: string | null
+  whatsappNumber: string | null
   user: {
     name: string
   }
@@ -266,6 +267,17 @@ export default function ProfilePage({ params }: PageProps) {
                         className="block w-full bg-orange-600 text-white py-3 rounded-lg font-semibold hover:bg-orange-700 transition-colors"
                       >
                         Schedule a Time
+                      </a>
+                    )}
+
+                    {profile.whatsappNumber && (
+                      <a
+                        href={`https://wa.me/${profile.whatsappNumber.replace(/[^0-9]/g, '')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors"
+                      >
+                        WhatsApp
                       </a>
                     )}
                   </div>

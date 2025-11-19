@@ -19,6 +19,7 @@ interface Profile {
   socialWebsite: string | null
   contactEmail: string | null
   calendarUrl: string | null
+  whatsappNumber: string | null
   analyticsVisits: number
   analyticsYes: number
   analyticsNo: number
@@ -53,6 +54,7 @@ export default function DashboardPage() {
     socialWebsite: '',
     contactEmail: '',
     calendarUrl: '',
+    whatsappNumber: '',
   })
 
   useEffect(() => {
@@ -102,6 +104,7 @@ export default function DashboardPage() {
         socialWebsite: profileData.socialWebsite || '',
         contactEmail: profileData.contactEmail || '',
         calendarUrl: profileData.calendarUrl || '',
+        whatsappNumber: profileData.whatsappNumber || '',
       })
 
       setLoading(false)
@@ -451,6 +454,22 @@ export default function DashboardPage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="https://calendly.com/username"
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  WhatsApp Number
+                </label>
+                <input
+                  type="tel"
+                  value={formData.whatsappNumber}
+                  onChange={(e) => setFormData({ ...formData, whatsappNumber: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="+1234567890"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Include country code (e.g., +1 for US)
+                </p>
               </div>
             </div>
 
