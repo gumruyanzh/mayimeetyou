@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  profile      Profile?
+}
+
+model Profile {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  username         String   @unique
+  tagline          String?
+  avatarUrl        String?
+  mainQuestionText String   @default("May I meet you?")
+  thankYouMessage  String?
+  noMessage        String?
+
+  // Social links
+  socialInstagram  String?
+  socialTwitter    String?
+  socialLinkedIn   String?
+  socialWebsite    String?
+  contactEmail     String?
+  calendarUrl      String?
+
+  // Analytics
+  analyticsVisits  Int      @default(0)
+  analyticsYes     Int      @default(0)
+  analyticsNo      Int      @default(0)
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
