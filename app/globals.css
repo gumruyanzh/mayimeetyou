@@ -1,3 +1,65 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #D97757;
+    --color-primary-hover: #C4643F;
+    --color-surface: #FFFFFF;
+    --color-surface-alt: #F5F3F0;
+    --color-bg: #FAF9F7;
+    --color-bg-alt: #F0EDE8;
+    --color-border: #E8E4DE;
+    --color-border-strong: #D4CFC7;
+    --color-text-primary: #1A1714;
+    --color-text-secondary: #6B6560;
+    --color-text-tertiary: #9C958D;
+    --color-success: #4A9E6B;
+    --color-warning: #D4A843;
+    --color-error: #C75050;
+  }
+
+  .dark {
+    --color-primary: #E08A6E;
+    --color-primary-hover: #EBA088;
+    --color-surface: #242019;
+    --color-surface-alt: #2E2A22;
+    --color-bg: #1A1714;
+    --color-bg-alt: #141210;
+    --color-border: #3A3530;
+    --color-border-strong: #4A4540;
+    --color-text-primary: #F5F0EA;
+    --color-text-secondary: #A8A098;
+    --color-text-tertiary: #78726A;
+    --color-success: #5CB87D;
+    --color-warning: #E0B84E;
+    --color-error: #E06060;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+  }
+}
+
+@layer utilities {
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-surface-alt) 25%,
+      var(--color-border) 50%,
+      var(--color-surface-alt) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+
+  .stagger-1 { animation-delay: 0.05s; }
+  .stagger-2 { animation-delay: 0.1s; }
+  .stagger-3 { animation-delay: 0.15s; }
+  .stagger-4 { animation-delay: 0.2s; }
+  .stagger-5 { animation-delay: 0.25s; }
+  .stagger-6 { animation-delay: 0.3s; }
+  .stagger-7 { animation-delay: 0.35s; }
+}

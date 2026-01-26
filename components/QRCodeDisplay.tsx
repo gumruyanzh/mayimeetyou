@@ -41,17 +41,14 @@ export default function QRCodeDisplay() {
     try {
       const response = await fetch('/api/qr/generate', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ size: 1000 }), // High quality for download
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ size: 1000 }),
       })
 
       if (!response.ok) {
         throw new Error('Failed to download QR code')
       }
 
-      // Create blob and download
       const blob = await response.blob()
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement('a')
@@ -71,15 +68,19 @@ export default function QRCodeDisplay() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-8">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="space-y-4">
+        <div className="flex justify-center">
+          <div className="w-64 h-64 skeleton rounded-xl" />
+        </div>
+        <div className="h-4 w-40 mx-auto skeleton rounded" />
+        <div className="h-12 skeleton rounded-xl" />
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="bg-red-50 text-red-600 p-4 rounded-lg">
+      <div className="bg-error/10 text-error p-4 rounded-xl">
         {error}
       </div>
     )
@@ -91,9 +92,8 @@ export default function QRCodeDisplay() {
 
   return (
     <div className="space-y-4">
-      {/* QR Code Display */}
       <div className="flex justify-center">
-        <div className="bg-white p-6 rounded-xl shadow-sm border">
+        <div className="bg-white p-6 rounded-xl shadow-soft border border-border">
           <img
             src={qrData.qrCode}
             alt="Profile QR Code"
@@ -102,33 +102,30 @@ export default function QRCodeDisplay() {
         </div>
       </div>
 
-      {/* Profile URL */}
       <div className="text-center">
-        <p className="text-sm text-gray-600 mb-2">Scan to visit</p>
-        <p className="font-mono text-sm text-gray-900 break-all">
+        <p className="text-sm text-text-tertiary mb-1">Scan to visit</p>
+        <p className="font-mono text-sm text-text-primary break-all">
           {qrData.profileURL}
         </p>
       </div>
 
-      {/* Download Button */}
       <button
         onClick={downloadQRCode}
         disabled={downloading}
-        className="w-full bg-gray-100 hover:bg-gray-200 text-gray-900 py-3 rounded-lg font-semibold transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+        className="w-full bg-surface-alt hover:bg-bg-alt text-text-primary py-3 rounded-xl font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed border border-border"
       >
         {downloading ? 'Downloading...' : 'Download QR Code'}
       </button>
 
-      {/* Instructions */}
-      <div className="bg-blue-50 p-4 rounded-lg">
-        <h4 className="font-semibold text-blue-900 mb-2">
+      <div className="bg-primary/5 border border-primary/10 p-4 rounded-xl">
+        <h4 className="font-semibold text-text-primary mb-2 text-sm">
           How to use your QR code:
         </h4>
-        <ul className="text-sm text-blue-800 space-y-1">
-          <li>• Print it on business cards</li>
-          <li>• Add it to your email signature</li>
-          <li>• Display it at events or conferences</li>
-          <li>• Share it on social media</li>
+        <ul className="text-sm text-text-secondary space-y-1">
+          <li>Print it on business cards</li>
+          <li>Add it to your email signature</li>
+          <li>Display it at events or conferences</li>
+          <li>Share it on social media</li>
         </ul>
       </div>
     </div>

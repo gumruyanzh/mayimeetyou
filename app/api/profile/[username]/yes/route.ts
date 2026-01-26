@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { getVisitorIp, shouldTrackEvent, trackEvent } from '@/lib/analytics'
 
 export async function POST(
   request: Request,
@@ -7,16 +8,28 @@ export async function POST(
 ) {
   try {
     const { username } = await params
+    const visitorIp = getVisitorIp(request)
 
-    // Increment yes count
-    await prisma.profile.update({
+    const profile = await prisma.profile.findUnique({
       where: { username },
-      data: {
-        analyticsYes: {
-          increment: 1,
-        },
-      },
+      select: { id: true },
     })
+
+    if (!profile) {
+      return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
+    }
+
+    const shouldTrack = await shouldTrackEvent(profile.id, 'yes', visitorIp)
+
+    if (shouldTrack) {
+      await Promise.all([
+        prisma.profile.update({
+          where: { username },
+          data: { analyticsYes: { increment: 1 } },
+        }),
+        trackEvent(profile.id, 'yes', visitorIp),
+      ])
+    }
 
     return NextResponse.json({ success: true })
   } catch (error) {

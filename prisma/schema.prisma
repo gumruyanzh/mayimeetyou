@@ -11,13 +11,15 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  name         String
-  email        String   @unique
-  passwordHash String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  profile      Profile?
+  id               String    @id @default(cuid())
+  name             String
+  email            String    @unique
+  passwordHash     String
+  resetToken       String?   @unique
+  resetTokenExpiry DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  profile          Profile?
 }
 
 model Profile {
@@ -45,6 +47,21 @@ model Profile {
   analyticsYes     Int      @default(0)
   analyticsNo      Int      @default(0)
 
+  // Relations
+  analyticsEvents  AnalyticsEvent[]
+
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+}
+
+model AnalyticsEvent {
+  id        String   @id @default(cuid())
+  profileId String
+  profile   Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  type      String   // "visit", "yes", "no"
+  visitorIp String
+  createdAt DateTime @default(now())
+
+  @@index([profileId, type, visitorIp])
+  @@index([createdAt])
 }
